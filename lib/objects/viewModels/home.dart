@@ -13,6 +13,7 @@ class HomeViewModel {
   final Function(int, String) renameDrink;
   final Function() getData;
 
+
   HomeViewModel(
       {@required this.drinks,
       @required this.state,

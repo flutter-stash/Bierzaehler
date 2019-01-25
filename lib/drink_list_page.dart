@@ -21,7 +21,9 @@ class DrinkListPage extends StatelessWidget {
           return Container(
             child: Center(
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  viewModel.doUseForSize(index);
+                },
                 child: Text(
                     viewModel.drink.sizes[index].value.toString()),
               ),

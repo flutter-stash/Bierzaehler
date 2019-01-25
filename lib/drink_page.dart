@@ -1,5 +1,6 @@
 import 'package:bierzaehler/drink_list_page.dart';
 import 'package:bierzaehler/objects/viewModels/drink.dart';
+import 'package:bierzaehler/objects/size.dart';
 import 'package:bierzaehler/redux/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -70,18 +71,16 @@ class DrinkPageState extends State<DrinkPage>
           children: <Widget>[
             DrinkListPage(drinkIndex: widget.index, viewModel: viewModel,),
             Center(
-              child: Text("Statistiken"),
+              child: Text(viewModel.drink.amount.toString()),
             )
           ],
           controller: _tabController,
         ),
-        floatingActionButton: (viewModel.state != DataState.LOADING &&
-                viewModel.state != DataState.ERROR &&
-                _tabController.index == 0)
+        floatingActionButton: (_tabController.index == 0)
             ? FloatingActionButton(
                 child: Icon(Icons.add),
                 onPressed: () {
-                  viewModel.getData();
+                  viewModel.addSize(new Size(0.5));
                 })
             : null,
       );

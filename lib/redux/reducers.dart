@@ -44,6 +44,7 @@ Reducer<AppState> _writeReducer = combineReducers<AppState>([
 Reducer<AppState> _addReducer = combineReducers<AppState>([
   new TypedReducer<AppState, AddSizeToDrinkAction>(_addSizeToDrinkReducer),
   new TypedReducer<AppState, AddDrinkAction>(_addDrinkReducer),
+  new TypedReducer<AppState, DoUseAtDrinkForSizeAction>(_doUseAtDrinkForSizeReducer),
 ]);
 
 AppState _addDrinkReducer(AppState state, AddDrinkAction action){
@@ -53,7 +54,13 @@ AppState _addDrinkReducer(AppState state, AddDrinkAction action){
 }
 
 AppState _addSizeToDrinkReducer(AppState state, AddSizeToDrinkAction action){
-  List<Drink> drinks= state.drinks;
+  List<Drink> drinks= List<Drink>.from(state.drinks);
   drinks[action.drinkIndex].addSize(action.size);
+  return state.copyWith(drinks: drinks);
+}
+
+AppState _doUseAtDrinkForSizeReducer(AppState state, DoUseAtDrinkForSizeAction action){
+  List<Drink> drinks = List<Drink>.from(state.drinks);
+  drinks[action.drinkIndex].doUse(action.sizeIndex);
   return state.copyWith(drinks: drinks);
 }

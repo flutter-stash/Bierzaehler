@@ -45,6 +45,13 @@ class AddSizeToDrinkAction implements AddAction{
   AddSizeToDrinkAction({@required this.size, @required this.drinkIndex});
 }
 
+class DoUseAtDrinkForSizeAction extends AddAction{
+  final int sizeIndex;
+  final int drinkIndex;
+
+  DoUseAtDrinkForSizeAction({@required this.sizeIndex, @required this.drinkIndex});
+}
+
 //----------------------------
 //Delete Actions
 //----------------------------
