@@ -1,0 +1,2 @@
+# Bierzaehler
+Ein Getränkezähler
