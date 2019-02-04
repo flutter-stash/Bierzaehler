@@ -27,6 +27,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_redux: "^0.5.2"
+  fluttertoast: ^2.0.7
   redux: "^3.0.0"
 
 # For information on the generic Dart part of this file, see the
@@ -39,6 +40,11 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  fonts:
+  - family:  MyFlutterApp
+    fonts:
+    - asset: fonts/MyFlutterApp.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

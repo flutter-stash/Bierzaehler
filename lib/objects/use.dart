@@ -30,14 +30,14 @@ class Use {
 
   Map<String, dynamic> toJson()=>{
     "size": jsonEncode(_size),
-    "date": _date.millisecondsSinceEpoch.toString()
+    "date": _date.microsecondsSinceEpoch.toString()
   };
 
-  get date{
+  DateTime get date{
     return _date;
   }
 
-  get size{
+  Size get size{
     return _size;
   }
 }

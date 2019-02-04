@@ -54,11 +54,11 @@ class Drink {
   }
 
   Map<String, dynamic> toJson() => {
-        "name": _name,
-        "alcohol": _alcohol.toString(),
-        "sizes": jsonEncode(_sizes),
-        "uses": jsonEncode(_uses)
-      };
+    "name": _name,
+    "alcohol": _alcohol.toString(),
+    "sizes": jsonEncode(_sizes),
+    "uses": jsonEncode(_uses)
+  };
 
   //-------------------------------
   //PUBLIC METHODS
@@ -154,6 +154,110 @@ class Drink {
     return new List<Size>.from(_sizes);
   }
 
+  ///The total amount of the drink in liters.
+  double get drunkenTotalVol {
+    double result = 0.0;
+    for (Use use in _uses) {
+      result += use.size.value;
+    }
+    return result;
+  }
+
+  ///The total amount of drunken alcohol in gram.
+  double get drunkenTotalAlk {
+    return drunkenTotalVol * 10 * 0.8 * alcohol;
+  }
+
+  ///The days since the first drink.
+  int get daysSinceFirstDrink {
+    DateTime firstDay = DateTime.now();
+    for (Use use in _uses) {
+      if (use.date.millisecondsSinceEpoch < firstDay.millisecondsSinceEpoch) {
+        firstDay = use.date;
+      }
+    }
+    DateTime today = DateTime.now();
+    return today.difference(firstDay).inDays;
+  }
+
+  ///calculates the average drunken volume of the drink in liters
+  ///for the time [time] in liter.
+  double averageDayVol(AverageTime time) {
+    switch (time) {
+      case AverageTime.TODAY:
+        double result = 0.0;
+        DateTime today = DateTime.now().subtract(Duration(days: 0, hours: 0));
+        for (Use use in _uses) {
+          if (today.difference(use.date).inDays == 0) {
+            result += use.size.value;
+          }
+        }
+        return result;
+      case AverageTime.YESTERDAY:
+        double result = 0.0;
+        DateTime yesterday = DateTime.now();
+        yesterday = yesterday.subtract(Duration(days: 1,));
+
+        for (Use use in _uses) {
+          if (yesterday.difference(use.date).inHours < 24 && yesterday.difference(use.date).inHours >= 0) {
+            result += use.size.value;
+          }
+        }
+        return result;
+      case AverageTime.WEEK:
+        double result = 0.0;
+        DateTime today = DateTime.now();
+        for (Use use in _uses) {
+          if (today.difference(use.date).inDays < 7) {
+            result += use.size.value;
+          }
+        }
+        return result / 7.0;
+      case AverageTime.MONTH:
+        double result = 0.0;
+        DateTime today = DateTime.now();
+        for (Use use in _uses) {
+          if (today.difference(use.date).inDays < 31) {
+            result += use.size.value;
+          }
+        }
+        return result / 31.0;
+      case AverageTime.YEAR:
+        double result = 0.0;
+        DateTime today = DateTime.now();
+        for (Use use in _uses) {
+          if (today.difference(use.date).inDays < 365) {
+            result += use.size.value;
+          }
+        }
+        return result / 365.0;
+      default:
+        return -1.0;
+    }
+  }
+
+  double averageMonthVol(AverageTime time) {
+    return averageDayVol(time) * 31.0;
+  }
+
+  double averageYearVol(AverageTime time) {
+    return averageDayVol(time) * 365.0;
+  }
+
+  ///calculates the average drunken alk of the drink in liters
+  ///for the time [time] in gram.
+  double averageDayAlk(AverageTime time){
+    return averageDayVol(time) *  10.0 * 0.8 * alcohol;
+  }
+
+  double averageMonthAlk(AverageTime time){
+    return averageMonthVol(time) *  10.0 * 0.8 * alcohol;
+  }
+
+  double averageYearAlk(AverageTime time){
+    return averageYearVol(time) *  10.0 * 0.8 * alcohol;
+  }
+
   //--------------------------------------
   //PRIVATE FUNCTIONS
   //--------------------------------------
@@ -193,12 +297,6 @@ class Drink {
       throw ArgumentError("sizes was null!");
     }
   }
-
-  get amount{
-    double result = 0.0;
-    for(Use use in _uses){
-      result += use.size.value;
-    }
-    return result;
-  }
 }
+
+enum AverageTime { TODAY, YESTERDAY, WEEK, MONTH, YEAR }
