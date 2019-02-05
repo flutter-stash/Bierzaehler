@@ -35,6 +35,8 @@ AppState _writeMiddleReducer(AppState state, WriteAction action){
 
 Reducer<AppState> _writeReducer = combineReducers<AppState>([
   new TypedReducer<AppState, AddAction>(_addReducer),
+  new TypedReducer<AppState, EditAction>(_editReducer),
+  new TypedReducer<AppState, DeleteAction>(_deleteReducer),
 ]);
 
 //------------------------
@@ -62,5 +64,36 @@ AppState _addSizeToDrinkReducer(AppState state, AddSizeToDrinkAction action){
 AppState _doUseAtDrinkForSizeReducer(AppState state, DoUseAtDrinkForSizeAction action){
   List<Drink> drinks = List<Drink>.from(state.drinks);
   drinks[action.drinkIndex].doUse(action.sizeIndex);
+  return state.copyWith(drinks: drinks);
+}
+
+//------------------------
+//EDIT REDUCER
+//------------------------
+
+Reducer<AppState> _editReducer = combineReducers<AppState>([
+  TypedReducer<AppState, EditDrinkAction>(_editDrinkReducer),
+]);
+
+AppState _editDrinkReducer(AppState state, EditDrinkAction action){
+  List<Drink> drinks = state.drinks;
+  drinks[action.index].name = action.name;
+  drinks[action.index].alcohol = action.alcohol;
+
+  return state.copyWith(drinks: drinks);
+}
+
+//------------------------
+//DELETE REDUCER
+//------------------------
+
+Reducer<AppState> _deleteReducer = combineReducers<AppState>([
+  TypedReducer<AppState, DeleteDrinkAction>(_deleteDrinkReducer),
+]);
+
+AppState _deleteDrinkReducer(AppState state, DeleteDrinkAction action){
+  List<Drink> drinks = state.drinks;
+  drinks.removeAt(action.index);
+
   return state.copyWith(drinks: drinks);
 }

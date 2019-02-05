@@ -10,7 +10,7 @@ class HomeViewModel {
 
   final Function(Drink) addDrink;
   final Function(int) deleteDrink;
-  final Function(int, String) renameDrink;
+  final Function(int, String, double) editDrink;
   final Function() getData;
 
 
@@ -19,7 +19,7 @@ class HomeViewModel {
       @required this.state,
       @required this.addDrink,
       @required this.deleteDrink,
-      @required this.renameDrink,
+      @required this.editDrink,
       @required this.getData});
 
   factory HomeViewModel.create(Store<AppState> store) {
@@ -31,8 +31,8 @@ class HomeViewModel {
       store.dispatch(new DeleteDrinkAction(index: index));
     }
 
-    _renameDrink(int index, String name) {
-      store.dispatch(new RenameDrinkAction(index: index, name: name));
+    _editDrink(int index, String name, double alcohol) {
+      store.dispatch(new EditDrinkAction(index: index, name: name,alcohol: alcohol));
     }
 
     _getData() {
@@ -43,7 +43,7 @@ class HomeViewModel {
       addDrink: _addDrink,
       deleteDrink: _deleteDrink,
       drinks: store.state.drinks,
-      renameDrink: _renameDrink,
+      editDrink: _editDrink,
       state: store.state.status,
       getData: _getData,
     );

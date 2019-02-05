@@ -1,4 +1,5 @@
 import 'package:bierzaehler/drinks_page.dart';
+import 'package:bierzaehler/home_change.dart';
 import 'package:bierzaehler/objects/drink.dart';
 import 'package:bierzaehler/objects/size.dart';
 import 'package:bierzaehler/objects/use.dart';
@@ -25,6 +26,14 @@ class HomePage extends StatelessWidget {
       return Scaffold(
           appBar: AppBar(
             title: Text("Bierzähler"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.create),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => HomeChange()));
+                },
+              )
+            ],
           ),
           body: DrinksPage(viewModel),
           floatingActionButton: FloatingActionButton(
@@ -40,97 +49,88 @@ class HomePage extends StatelessWidget {
                                 key: _formKey,
                                 child: SingleChildScrollView(
                                     child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "Getränk hinzufügen",
-                                      style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(bottom: 16.0),
-                                    ),
-                                    TextFormField(
-                                      controller: _controllerName,
-                                      decoration: InputDecoration(
-                                          hintText: "Getränk",
-                                          labelText: "Getränk"),
-                                      autofocus: true,
-                                      keyboardType: TextInputType.text,
-                                      validator: (String text) {
-                                        if (text.length > 32) {
-                                          return 'Zu Lang!';
-                                        }
-                                        if(text.length == 0){
-                                          return 'Bitte gib hier das Getränk ein!';
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(bottom: 16.0),
-                                    ),
-                                    TextFormField(
-                                      controller: _controllerAlc,
-                                      decoration: InputDecoration(
-                                          hintText: "Alkohol",
-                                          labelText: "Alkohol in Vol. %"),
-                                      autofocus: false,
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                      validator: (String text) {
-                                        if(text.length == 0){
-                                          return 'Bitte gib hier den Alkoholgehalt ein!';
-                                        }
-                                        return double.tryParse(text) == null
-                                            ? 'Bitte benutze den Punkt anstatt des Kommas!'
-                                            : null;
-                                      },
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(bottom: 16.0),
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        FlatButton(
-                                          child: Text("ABBRECHEN"),
-                                          textColor:
-                                              Theme.of(context).primaryColor,
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
+                                        Text(
+                                          "Getränk hinzufügen",
+                                          style:
+                                          TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
                                         ),
-                                        RaisedButton(
-                                          child: Text("OK"),
-                                          color: Theme.of(context).primaryColor,
-                                          textColor: Colors.white,
-                                          onPressed: () {
-                                            if (_formKey.currentState
-                                                .validate()) {
-                                              List<Use> uses = new List<Use>();
-                                              List<Size> sizes =
-                                                  new List<Size>();
-                                              viewModel.addDrink(new Drink(
-                                                  _controllerName.text,
-                                                  double.parse(
-                                                      _controllerAlc.text),
-                                                  sizes,
-                                                  uses));
-                                              _controllerAlc.text = "";
-                                              _controllerName.text = "";
-                                              Navigator.of(context).pop();
+                                        Padding(
+                                          padding: EdgeInsets.only(bottom: 16.0),
+                                        ),
+                                        TextFormField(
+                                          controller: _controllerName,
+                                          decoration: InputDecoration(
+                                              hintText: "Getränk", labelText: "Getränk"),
+                                          autofocus: true,
+                                          keyboardType: TextInputType.text,
+                                          validator: (String text) {
+                                            if (text.length > 32) {
+                                              return 'Zu Lang!';
                                             }
+                                            if (text.length == 0) {
+                                              return 'Bitte gib hier das Getränk ein!';
+                                            }
+                                            return null;
                                           },
                                         ),
+                                        Padding(
+                                          padding: EdgeInsets.only(bottom: 16.0),
+                                        ),
+                                        TextFormField(
+                                          controller: _controllerAlc,
+                                          decoration: InputDecoration(
+                                              hintText: "Alkohol", labelText: "Alkohol in Vol. %"),
+                                          autofocus: false,
+                                          keyboardType:
+                                          TextInputType.numberWithOptions(decimal: true),
+                                          validator: (String text) {
+                                            if (text.length == 0) {
+                                              return 'Bitte gib hier den Alkoholgehalt ein!';
+                                            }
+                                            return double.tryParse(text) == null
+                                                ? 'Bitte benutze den Punkt anstatt des Kommas!'
+                                                : null;
+                                          },
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(bottom: 16.0),
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            FlatButton(
+                                              child: Text("ABBRECHEN"),
+                                              textColor: Theme.of(context).primaryColor,
+                                              onPressed: () => Navigator.of(context).pop(),
+                                            ),
+                                            RaisedButton(
+                                              child: Text("OK"),
+                                              color: Theme.of(context).primaryColor,
+                                              textColor: Colors.white,
+                                              onPressed: () {
+                                                if (_formKey.currentState.validate()) {
+                                                  List<Use> uses = new List<Use>();
+                                                  List<Size> sizes = new List<Size>();
+                                                  viewModel.addDrink(new Drink(
+                                                      _controllerName.text,
+                                                      double.parse(_controllerAlc.text),
+                                                      sizes,
+                                                      uses));
+                                                  _controllerAlc.text = "";
+                                                  _controllerName.text = "";
+                                                  Navigator.of(context).pop();
+                                                }
+                                              },
+                                            ),
+                                          ],
+                                        )
                                       ],
-                                    )
-                                  ],
-                                )))),
+                                    )))),
                       );
                     });
               }));

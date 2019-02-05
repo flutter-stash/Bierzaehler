@@ -44,15 +44,22 @@ class DrinkListPage extends StatelessWidget {
                   Scaffold.of(context)
                     ..removeCurrentSnackBar()
                     ..showSnackBar(
-                        SnackBar(content: Text("Erfolgreich Getunken!")));
+                        SnackBar(content: Text("Erfolgreich Getrunken!")));
                   viewModel.doUseForSize(index);
                 },
                 fillColor: colors[index % 9],
                 shape: CircleBorder(),
-                padding: EdgeInsets.all(48.0),
-                child: Text(
-                  viewModel.drink.sizes[index].value.toString() + "l",
-                  style: TextStyle(color: Color(0xffffffff)),
+                child: Container(
+                  width: 96.0,
+                  height: 96.0,
+                  child: Center(
+                    child: Text(
+                      viewModel.drink.sizes[index].value.toString() + "l",
+                      style: TextStyle(
+                          color: Color(0xffffffff),
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
                 ),
               ),
             ),

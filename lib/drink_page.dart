@@ -63,7 +63,7 @@ class DrinkPageState extends State<DrinkPage>
   }
 
   final List<Tab> _tabs = <Tab>[
-    new Tab(icon: Icon(MyFlutterApp.bier_icon), text: "Getränke"),
+    new Tab(icon: Icon(MyFlutterApp.bier_icon), text: "Gläser"),
     Tab(
       icon: Icon(MyFlutterApp.statistics),
       text: "Statistiken",
@@ -84,7 +84,7 @@ class DrinkPageState extends State<DrinkPage>
         }, builder: (BuildContext context, DrinkViewModel viewModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text("Bierzähler"),
+              title: Text(viewModel.drink.name),
               bottom: TabBar(
                 tabs: _tabs,
                 controller: _tabController,
@@ -118,7 +118,7 @@ class DrinkPageState extends State<DrinkPage>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "Größe hinzufügen",
+                                    "Glas hinzufügen",
                                     style: TextStyle(
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.w500),
@@ -157,15 +157,13 @@ class DrinkPageState extends State<DrinkPage>
                                     children: <Widget>[
                                       FlatButton(
                                         child: Text("ABBRECHEN"),
-                                        textColor: colors[
-                                            widget.index % colors.length],
+                                        textColor: Theme.of(context).primaryColor,
                                         onPressed: () =>
                                             Navigator.of(context).pop(),
                                       ),
                                       RaisedButton(
                                         child: Text("OK"),
-                                        color: colors[
-                                            widget.index % colors.length],
+                                        color: Theme.of(context).primaryColor,
                                         textColor: Colors.white,
                                         onPressed: () {
                                           if (formKey.currentState.validate()) {

@@ -34,7 +34,7 @@ class DrinksPage extends StatelessWidget {
         if (viewModel.drinks.length == 0) {
           return Center(
             child: Column(
-             mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text("Keine Getränke vohanden!"),
@@ -47,25 +47,49 @@ class DrinksPage extends StatelessWidget {
             itemCount: viewModel.drinks.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                  padding: EdgeInsets.all(16.0),
-                  child: Center(
-                    child: RawMaterialButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    DrinkPage(index: index)));
-                      },
-                      fillColor: colors[index % 9],
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(48.0),
-                      child: Text(
-                        viewModel.drinks[index].name,
-                        style: TextStyle(color: Color(0xffffffff)),
+                padding: EdgeInsets.all(16.0),
+                child: Center(
+                  child: RawMaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  DrinkPage(index: index)));
+                    },
+                    fillColor: colors[index % 9],
+                    shape: CircleBorder(),
+                    child: Container(
+                      width: 96.0,
+                      height: 96.0,
+                      child: Center(
+                        child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                viewModel.drinks[index].name
+                                    .toString()
+                                    .toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 8.0),
+                              ),
+                              Text(
+                                viewModel.drinks[index].alcohol.toString() + " Vol. %",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ]),
                       ),
                     ),
-                  ));
+                  ),
+                ),
+              );
             },
           );
         }

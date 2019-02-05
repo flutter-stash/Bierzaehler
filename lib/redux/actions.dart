@@ -73,16 +73,17 @@ class DeleteSizeFromDrinkAction extends DeleteAction{
 //Rename Actions
 //----------------------------
 
-abstract class RenameAction extends WriteAction{}
+abstract class EditAction extends WriteAction{}
 
-class RenameDrinkAction extends RenameAction{
+class EditDrinkAction extends EditAction{
   final int index;
   final String name;
+  final double alcohol;
 
-  RenameDrinkAction({@required this.index, @required this.name});
+  EditDrinkAction({@required this.index, @required this.name, @required this.alcohol});
 }
 
-class RenameSizeAtDrinkAction extends RenameAction{
+class RenameSizeAtDrinkAction extends EditAction{
   final int drinkIndex;
   final int sizeIndex;
   final Size size;
