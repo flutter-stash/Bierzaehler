@@ -125,19 +125,20 @@ class HomeChange extends StatelessWidget {
     }, builder: (BuildContext context, HomeViewModel viewModel) {
       if (viewModel.drinks.length == 0) {
         return Scaffold(
-          appBar: AppBar(
-            title: Text("Bierzähler"),
-            leading: IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () => Navigator.of(context).pop()),
-          ),
-          body: Center(child: Text("Füge zuerst Getränke hinzu!"),)
-        );
+            appBar: AppBar(
+              title: Text("Bierzähler"),
+              leading: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () => Navigator.of(context).pop()),
+            ),
+            body: Center(
+              child: Text("Füge zuerst Getränke hinzu!"),
+            ));
       }
 
       return Scaffold(
         appBar: AppBar(
-          title: Text("Bierzähler"),
+          title: Text("Getränke bearbeiten"),
           leading: IconButton(
               icon: Icon(Icons.close),
               onPressed: () => Navigator.of(context).pop()),
@@ -209,44 +210,38 @@ class HomeChange extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return SimpleDialog(
-                                    title: Text("Löschen"),
+                                    title: Text("Getränk Löschen"),
+                                    contentPadding: EdgeInsets.only(
+                                        left: 24.0,
+                                        right: 24.0,
+                                        top: 16.0,
+                                        bottom: 16.0),
                                     children: <Widget>[
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            right: 16.0, left: 16.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                                'Möchtest du das Getränk "${viewModel.drinks[index].name.toString()}" wirklich löschen?'),
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 16.0),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: <Widget>[
-                                                FlatButton(
-                                                  child: Text("ABBRECHEN"),
-                                                  onPressed: () =>
-                                                      Navigator.of(context)
-                                                          .pop(),
-                                                  textColor: Colors.red,
-                                                ),
-                                                RaisedButton(
-                                                  child: Text("LÖSCHEN"),
-                                                  onPressed: () {
-                                                    viewModel
-                                                        .deleteDrink(index);
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  color: Colors.red,
-                                                  textColor: Colors.white,
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
+                                      Text(
+                                          'Möchtest du das Getränk "${viewModel.drinks[index].name.toString()}" wirklich unwiderruflich löschen?'),
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: 16.0),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          FlatButton(
+                                            child: Text("ABBRECHEN"),
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            textColor: Colors.red,
+                                          ),
+                                          RaisedButton(
+                                            child: Text("LÖSCHEN"),
+                                            onPressed: () {
+                                              viewModel.deleteDrink(index);
+                                              Navigator.of(context).pop();
+                                            },
+                                            color: Colors.red,
+                                            textColor: Colors.white,
+                                          ),
+                                        ],
                                       )
                                     ],
                                   );

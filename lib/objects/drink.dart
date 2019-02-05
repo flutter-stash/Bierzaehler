@@ -54,11 +54,11 @@ class Drink {
   }
 
   Map<String, dynamic> toJson() => {
-    "name": _name,
-    "alcohol": _alcohol.toString(),
-    "sizes": jsonEncode(_sizes),
-    "uses": jsonEncode(_uses)
-  };
+        "name": _name,
+        "alcohol": _alcohol.toString(),
+        "sizes": jsonEncode(_sizes),
+        "uses": jsonEncode(_uses)
+      };
 
   //-------------------------------
   //PUBLIC METHODS
@@ -117,6 +117,17 @@ class Drink {
     }
   }
 
+  ///Replaces the size on [sizeIndex] with [size].
+  ///
+  /// [sizeIndex] the size on sizeIndex to replace.
+  /// Throws an [ArgumentError] if the sizeIndex is invalid.
+  void editSize(int sizeIndex, Size size){
+    if(sizeIndex >= _sizes.length){
+      throw ArgumentError("The size was not in the list!");
+    }
+    this._sizes[sizeIndex] = size;
+  }
+
   ///Set the Name.
   ///
   ///[name] the name to set.
@@ -139,18 +150,21 @@ class Drink {
 
   ///Removes the last Element of the list of uses.
   bool removeLastUse() {
-    return (this._uses.removeLast() != null);
+    if (this.uses.length > 0) {
+      return (this._uses.removeLast() != null);
+    }
+    return false;
   }
 
-  get name => _name;
+  String get name => _name;
 
-  get alcohol => _alcohol;
+  double get alcohol => _alcohol;
 
-  get uses {
+  List<Use> get uses {
     return new List<Use>.from(_uses);
   }
 
-  get sizes {
+  List<Size> get sizes {
     return new List<Size>.from(_sizes);
   }
 
@@ -196,10 +210,13 @@ class Drink {
       case AverageTime.YESTERDAY:
         double result = 0.0;
         DateTime yesterday = DateTime.now();
-        yesterday = yesterday.subtract(Duration(days: 1,));
+        yesterday = yesterday.subtract(Duration(
+          days: 1,
+        ));
 
         for (Use use in _uses) {
-          if (yesterday.difference(use.date).inHours < 24 && yesterday.difference(use.date).inHours >= 0) {
+          if (yesterday.difference(use.date).inHours < 24 &&
+              yesterday.difference(use.date).inHours >= 0) {
             result += use.size.value;
           }
         }
@@ -246,16 +263,16 @@ class Drink {
 
   ///calculates the average drunken alk of the drink in liters
   ///for the time [time] in gram.
-  double averageDayAlk(AverageTime time){
-    return averageDayVol(time) *  10.0 * 0.8 * alcohol;
+  double averageDayAlk(AverageTime time) {
+    return averageDayVol(time) * 10.0 * 0.8 * alcohol;
   }
 
-  double averageMonthAlk(AverageTime time){
-    return averageMonthVol(time) *  10.0 * 0.8 * alcohol;
+  double averageMonthAlk(AverageTime time) {
+    return averageMonthVol(time) * 10.0 * 0.8 * alcohol;
   }
 
-  double averageYearAlk(AverageTime time){
-    return averageYearVol(time) *  10.0 * 0.8 * alcohol;
+  double averageYearAlk(AverageTime time) {
+    return averageYearVol(time) * 10.0 * 0.8 * alcohol;
   }
 
   //--------------------------------------

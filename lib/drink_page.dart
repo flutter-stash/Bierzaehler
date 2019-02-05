@@ -1,3 +1,4 @@
+import 'package:bierzaehler/drink_change.dart';
 import 'package:bierzaehler/drink_data_page.dart';
 import 'package:bierzaehler/drink_list_page.dart';
 import 'package:bierzaehler/my_flutter_app_icons.dart';
@@ -89,6 +90,76 @@ class DrinkPageState extends State<DrinkPage>
                 tabs: _tabs,
                 controller: _tabController,
               ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.create),
+                  onPressed: () {
+                    Navigator.of(context).push(new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            DrinkChange(drinkIndex: widget.index)));
+                  },
+                ),
+                PopupMenuButton<Selection>(
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<Selection>>[
+                        PopupMenuItem<Selection>(
+                          value: Selection.DELETE_LAST_USE,
+                          child: Text("Trinken rückgängig"),
+                        ),
+                      ],
+                  onSelected: (Selection selection) {
+                    switch (selection) {
+                      case Selection.DELETE_LAST_USE:
+                        if (viewModel.drink.drunkenTotalVol > 0) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => SimpleDialog(
+                                    title: Text("Trinken rückgängig"),
+                                    children: <Widget>[
+                                      Text(
+                                          "Möchtest du das letzte Trinken wirklich rückgängig machen?"),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          FlatButton(
+                                            child: Text(
+                                              "NEIN",
+                                              style:
+                                                  TextStyle(color: Colors.red),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          RaisedButton(
+                                            child: Text(
+                                              "JA",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            color: Colors.red,
+                                            onPressed: () {
+                                              viewModel.deleteLastUse();
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                    contentPadding: EdgeInsets.only(
+                                        left: 24.0,
+                                        right: 24.0,
+                                        top: 16.0,
+                                        bottom: 16.0),
+                                  ));
+                        }
+                        break;
+                    }
+                  },
+                )
+              ],
             ),
             body: TabBarView(
               children: <Widget>[
@@ -107,7 +178,6 @@ class DrinkPageState extends State<DrinkPage>
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
-
                             return new Dialog(
                                 child: Container(
                               padding: EdgeInsets.all(16.0),
@@ -157,7 +227,8 @@ class DrinkPageState extends State<DrinkPage>
                                     children: <Widget>[
                                       FlatButton(
                                         child: Text("ABBRECHEN"),
-                                        textColor: Theme.of(context).primaryColor,
+                                        textColor:
+                                            Theme.of(context).primaryColor,
                                         onPressed: () =>
                                             Navigator.of(context).pop(),
                                       ),
@@ -188,3 +259,5 @@ class DrinkPageState extends State<DrinkPage>
         }));
   }
 }
+
+enum Selection { DELETE_LAST_USE }

@@ -69,6 +69,11 @@ class DeleteSizeFromDrinkAction extends DeleteAction{
   DeleteSizeFromDrinkAction({@required this.drinkIndex, @required this.sizeIndex});
 }
 
+class DeleteLastUseAction extends DeleteAction{
+  final int drinkIndex;
+  DeleteLastUseAction({@required this.drinkIndex});
+}
+
 //----------------------------
 //Rename Actions
 //----------------------------
@@ -83,12 +88,12 @@ class EditDrinkAction extends EditAction{
   EditDrinkAction({@required this.index, @required this.name, @required this.alcohol});
 }
 
-class RenameSizeAtDrinkAction extends EditAction{
+class EditSizeAtDrinkAction extends EditAction{
   final int drinkIndex;
   final int sizeIndex;
   final Size size;
 
-  RenameSizeAtDrinkAction({@required this.sizeIndex, @required this.drinkIndex, @required this.size});
+  EditSizeAtDrinkAction({@required this.sizeIndex, @required this.drinkIndex, @required this.size});
 }
 
 
