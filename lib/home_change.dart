@@ -77,9 +77,14 @@ class HomeChange extends StatelessWidget {
                       if (text.length == 0) {
                         return 'Bitte gib hier den Alkoholgehalt ein!';
                       }
-                      return double.tryParse(text) == null
-                          ? 'Bitte benutze den Punkt anstatt des Kommas!'
-                          : null;
+                      double alcohol = double.tryParse(text);
+                      if(alcohol == null){
+                        return 'Bitte benutze den Punkt anstatt des Kommas!';
+                      }
+                      if(alcohol < 0.0 || alcohol > 100.0){
+                        return 'Prozent gehen nur von 0 bis 100!';
+                      }
+                      return null;
                     },
                   ),
                   Padding(
