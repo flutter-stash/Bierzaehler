@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:path/path.dart';
 import 'package:redux/redux.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
 void main() {
@@ -23,15 +24,24 @@ void main() {
 }
 
 Future<void> getDatabaseData() async {
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool data = prefs.getBool("firstRun");
+  if(data != null){
+    return;
+  }
+
   var dbDir = await getDatabasesPath();
   var dbPath = join(dbDir, "Bierzaehler.db");
   Database db;
   try {
     db = await openDatabase(dbPath);
   } catch (e) {
+    prefs.setBool("firstRun", true);
     return;
   }
   if(db == null){
+    prefs.setBool("firstRun", true);
     return;
   }
   List<Map<String, dynamic>> drinks;
@@ -39,6 +49,7 @@ Future<void> getDatabaseData() async {
     String query = "SELECT * FROM Beverages;";
     drinks = await db.rawQuery(query);
   }catch (e) {
+    prefs.setBool("firstRun", true);
     return;
   }
   List<Drink> drinkObjects = new List<Drink>();
@@ -84,7 +95,8 @@ Future<void> getDatabaseData() async {
   AppState state = AppState.initialState();
   state = state.copyWith(drinks: drinkObjects);
   await setData(state);
-  deleteDatabase(dbPath);
+//  deleteDatabase(dbPath);
+  prefs.setBool("firstRun", true);
 }
 
 class MyApp extends StatelessWidget {
@@ -100,6 +112,7 @@ class MyApp extends StatelessWidget {
         store: store,
         child: MaterialApp(
           title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primaryColor: const Color(0xff7b1fa2),
             accentColor: const Color(0xff0091ea),

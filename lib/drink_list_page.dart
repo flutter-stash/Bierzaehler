@@ -27,7 +27,7 @@ class DrinkListPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text("Keine Gäser vohanden!"),
+            Text("Keine Gläser vohanden!"),
             Text("Füge jetzt dein erstes Glas hinzu!")
           ],
         ),
